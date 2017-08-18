@@ -4,7 +4,7 @@ namespace App\GraphQL\Type;
 use GraphQL;
 use GraphQL\Type\Definition\Type;
 use Folklore\GraphQL\Support\Type as GraphQLType;
-use App\DataLoader\Type4Loader;
+use App\DataLoader2\Type4Loader;
 
 class Type3 extends GraphQLType {
 
@@ -37,6 +37,9 @@ class Type3 extends GraphQLType {
 
     public function resolveItemsField()
     {
-        return $this->loader->load(9);
+        $this->loader->buffer([9]);
+        return new GraphQL\Deferred(function() {
+            return $this->loader->load(9);
+        });
     }
 }

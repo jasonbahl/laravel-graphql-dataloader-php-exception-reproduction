@@ -7,10 +7,10 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Foundation\Application;
 use Overblog\DataLoader\Promise\Adapter\Webonyx\GraphQL\SyncPromiseAdapter;
 use Overblog\PromiseAdapter\Adapter\WebonyxGraphQLSyncPromiseAdapter;
-use App\DataLoader\Type1Loader;
-use App\DataLoader\Type2Loader;
-use App\DataLoader\Type3Loader;
-use App\DataLoader\Type4Loader;
+use App\DataLoader2\Type1Loader;
+use App\DataLoader2\Type2Loader;
+use App\DataLoader2\Type3Loader;
+use App\DataLoader2\Type4Loader;
 
 class AppServiceProvider extends ServiceProvider
 {
