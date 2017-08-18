@@ -4,8 +4,13 @@ namespace App\Providers;
 
 use GraphQL\GraphQL;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Foundation\Application;
 use Overblog\DataLoader\Promise\Adapter\Webonyx\GraphQL\SyncPromiseAdapter;
 use Overblog\PromiseAdapter\Adapter\WebonyxGraphQLSyncPromiseAdapter;
+use App\DataLoader\Type1Loader;
+use App\DataLoader\Type2Loader;
+use App\DataLoader\Type3Loader;
+use App\DataLoader\Type4Loader;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,6 +22,13 @@ class AppServiceProvider extends ServiceProvider
      * @var WebonyxGraphQLSyncPromiseAdapter
      */
     private $dataLoaderPromiseAdapter;
+
+    public function __construct(Application $app)
+    {
+        parent::__construct($app);
+        $this->graphQLPromiseAdapter = new SyncPromiseAdapter();
+        $this->dataLoaderPromiseAdapter = new WebonyxGraphQLSyncPromiseAdapter($this->graphQLPromiseAdapter);
+    }
 
     /**
      * Bootstrap any application services.
@@ -41,5 +53,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('PromiseAdapter', function () {
             return $this->graphQLPromiseAdapter;
         });
+
+        $this->app->singleton(Type1Loader::class);
+        $this->app->singleton(Type2Loader::class);
+        $this->app->singleton(Type3Loader::class);
+        $this->app->singleton(Type4Loader::class);
     }
 }

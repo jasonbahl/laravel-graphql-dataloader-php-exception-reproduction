@@ -4,13 +4,22 @@ namespace App\GraphQL\Type;
 use GraphQL;
 use GraphQL\Type\Definition\Type;
 use Folklore\GraphQL\Support\Type as GraphQLType;
+use App\DataLoader\Type3Loader;
 
 class Type2 extends GraphQLType {
+
+    private $loader;
 
     protected $attributes = [
         'name' => 'Type2',
         'description' => 'Type 2',
     ];
+
+    public function __construct($attributes = [], Type3Loader $loader)
+    {
+        parent::__construct($attributes);
+        $this->loader = $loader;
+    }
 
     public function fields()
     {
@@ -20,7 +29,7 @@ class Type2 extends GraphQLType {
                 'description' => 'The id of the item'
             ],
             'items' => [
-                'type' => Type::nonNull(Type::listOf(GraphQL::type('Type3'))),
+                'type' => GraphQL::type('Type3'),
                 'description' => 'The child items'
             ]
         ];
@@ -28,6 +37,6 @@ class Type2 extends GraphQLType {
 
     public function resolveItemsField()
     {
-        return [];
+        return $this->loader->load(8);
     }
 }
